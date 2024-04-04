@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { CityContext } from '../Context/CityContext';
 import axios from 'axios';
+import moment from "moment";
 
 
 function Card() {
@@ -48,7 +49,7 @@ function Card() {
                     <h2 className='text-center mt-5 mb-5'>Welcome to Weather App</h2>
                     <section className="vh-60 border rounded-pill " style={{ backgroundColor: '#f5f6f7' }}>
                         <div className="container  p-5">
-                            <h2 className='text-center'>{data.name} Current Time {currentTime} and  Weather</h2>
+                            <h2 className='text-center'>{data.name} Current Time {moment(currentTime).format('HH:mm:ss')} and  Weather</h2>
                             <div className="row  d-flex justify-content-center align-items-center mt-5">
                                 <div className="col-md-10 col-lg-8 col-xl-6" >
                                     <div className="card  bg-dark text-white">
