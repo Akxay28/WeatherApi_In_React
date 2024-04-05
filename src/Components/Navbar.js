@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import cityData from '../city.json'
 import { CityContext } from '../Context/CityContext';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 function Navbar() {
@@ -9,11 +10,42 @@ function Navbar() {
     const cities = cityData.cities;
     const [selectedCity, setSelectedCity] = useState('');
     const { updateCityData } = useContext(CityContext);
+    useEffect(() => {
+        (async () => {
+            const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=Ahmedabad&appid=beaac372a350a7fa2168731fc2f6fc8d`);
 
-    const handleClick = (e) => {
+            const WeatherPayload = {
+                name: response.data.name,
+                temp: response.data.main.temp,
+                weather: response.data.weather[0].main,
+                fellsLike: response.data.main.feels_like
+            }
+
+            // console.log(response, 'This is response ');
+            updateCityData(WeatherPayload)
+        })()
+
+    }, [])
+
+
+    const handleClick = async (e) => {
         e.preventDefault();
+        try {
+            const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${selectedCity}&appid=beaac372a350a7fa2168731fc2f6fc8d`);
+
+            const WeatherPayload = {
+                name: response.data.name,
+                temp: response.data.main.temp,
+                weather: response.data.weather[0].main,
+                fellsLike: response.data.main.feels_like
+            }
+            // console.log(WeatherPayload, 'This is response ');
+            updateCityData(WeatherPayload);
+
+        } catch (error) {
+            console.log(error, 'this is error of fetching api in mumbai page');
+        }
         console.log(selectedCity, 'citydata');
-        updateCityData(selectedCity); // Update the city data in the store
     };
     return (
         <>
@@ -29,8 +61,8 @@ function Navbar() {
                             <li className="nav-item">
                                 <a className="nav-link active" href="#">About</a>
                             </li>
-
                         </ul>
+
                         <form className="d-flex" onSubmit={handleClick}>
                             <select className=" me-2 form-control" placeholder="Search" onChange={(e) => setSelectedCity(e.target.value)} aria-label="Search" >
                                 <option value="">Select a City</option>

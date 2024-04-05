@@ -3,7 +3,7 @@ import React, { createContext, useState } from 'react';
 export const CityContext = createContext();
 
 export const CityProvider = ({ children }) => {
-    const [cityData, setCityData] = useState('');
+    const [cityData, setCityData] = useState({});
 
     const updateCityData = (data) => {
         setCityData(data);
