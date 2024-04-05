@@ -29,7 +29,6 @@ function Card() {
     const fetchingApi = async () => {
         try {
             const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityData ? cityData : 'Ahmedabad'}&appid=beaac372a350a7fa2168731fc2f6fc8d`);
-            // console.log(response.data);
             setdata(response.data);
             settemp(response.data.main);
             setweather(response.data.weather);
@@ -37,7 +36,6 @@ function Card() {
             console.log(error, 'this is error of fetching api in mumbai page');
         }
     }
-
     return (
         <>
 
@@ -97,22 +95,16 @@ function Card() {
                                         {weather && weather.length > 0 && weather.map((item, index) => (
                                             <div key={index}>
                                                 <p className='display-2 fs-4' key={index}>Sky Full OF : {item.main}</p>
-                                                {/* {item.main === 'Smoke' && (
-                                                    console.log("Smoke")
-                                                )} */}
+
                                             </div>
                                         ))}
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </section >
             </div>
-
-
-
         </>
     )
 }
